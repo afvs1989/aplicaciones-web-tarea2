@@ -9,46 +9,36 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<div class="table-responsive">
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Codigo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Carrera)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Correo)
-            </th>
+            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+            <th>@Html.DisplayNameFor(model => model.Apellido)</th>
+            <th>@Html.DisplayNameFor(model => model.Codigo)</th>
+            <th>@Html.DisplayNameFor(model => model.Carrera)</th>
+            <th>@Html.DisplayNameFor(model => model.Semestre)</th>
+            <th>@Html.DisplayNameFor(model => model.Promedio)</th>
+            <th>@Html.DisplayNameFor(model => model.Telefono)</th>
+            <th>@Html.DisplayNameFor(model => model.Correo)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaIngreso)</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>@Html.DisplayFor(model => item.Nombre)</td>
+            <td>@Html.DisplayFor(model => item.Apellido)</td>
+            <td>@Html.DisplayFor(model => item.Codigo)</td>
+            <td>@Html.DisplayFor(model => item.Carrera)</td>
+            <td>@Html.DisplayFor(model => item.Semestre)</td>
+            <td>@Html.DisplayFor(model => item.Promedio)</td>
+            <td>@Html.DisplayFor(model => item.Telefono)</td>
+            <td>@Html.DisplayFor(model => item.Correo)</td>
+            <td>@Html.DisplayFor(model => item.FechaIngreso)</td>
             <td>
-                @Html.DisplayFor(model => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Codigo)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Carrera)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Correo)
-            </td>
-            <td>
+                <a href="#" class="btn-ver-modal" data-url="@Url.Action("VerModal", new { id = item.Id })">Ver</a> |
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
@@ -57,3 +47,26 @@
 }
     </tbody>
 </table>
+</div>
+
+<div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content" id="detalleModalContent"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.btn-ver-modal').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                fetch(btn.dataset.url)
+                    .then(function (response) { return response.text(); })
+                    .then(function (html) {
+                        document.getElementById('detalleModalContent').innerHTML = html;
+                        new bootstrap.Modal(document.getElementById('detalleModal')).show();
+                    });
+            });
+        });
+    </script>
+}

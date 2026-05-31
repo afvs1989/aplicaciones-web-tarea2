@@ -37,16 +37,34 @@ public class AlumnoController : Controller
         return View(alumnoModel);
     }
 
+    // GET: ALUMNOMODELS/VerModal/5
+    public async Task<IActionResult> VerModal(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var alumnoModel = await _context.Alumnos
+            .FirstOrDefaultAsync(m => m.Id == id);
+        if (alumnoModel == null)
+        {
+            return NotFound();
+        }
+
+        return PartialView("_VerModal", alumnoModel);
+    }
+
     // GET: ALUMNOMODELS/Create
     public IActionResult Create()
     {
-        return View();
+        return View(new AlumnoModel { FechaIngreso = DateTime.Today });
     }
 
     // POST: ALUMNOMODELS/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Codigo,Carrera,Correo")] AlumnoModel alumnoModel)
+    public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Codigo,Carrera,Semestre,Promedio,Telefono,Correo,FechaIngreso")] AlumnoModel alumnoModel)
     {
         if (ModelState.IsValid)
         {
@@ -76,7 +94,7 @@ public class AlumnoController : Controller
     // POST: ALUMNOMODELS/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("Id,Nombre,Apellido,Codigo,Carrera,Correo")] AlumnoModel alumnoModel)
+    public async Task<IActionResult> Edit(int? id, [Bind("Id,Nombre,Apellido,Codigo,Carrera,Semestre,Promedio,Telefono,Correo,FechaIngreso")] AlumnoModel alumnoModel)
     {
         if (id != alumnoModel.Id)
         {

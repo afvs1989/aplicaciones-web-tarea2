@@ -1,0 +1,43 @@
+@model tarea2_clientes.Models.AlumnoModel
+
+<div class="modal-header">
+    <h5 class="modal-title">Detalle del alumno</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+</div>
+<div class="modal-body">
+    <dl class="row mb-0">
+        <dt class="col-sm-4">Id</dt>
+        <dd class="col-sm-8">@Model.Id</dd>
+
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Nombre)</dt>
+        <dd class="col-sm-8">@Model.Nombre</dd>
+
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Apellido)</dt>
+        <dd class="col-sm-8">@Model.Apellido</dd>
+
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Codigo)</dt>
+        <dd class="col-sm-8">@Model.Codigo</dd>
+
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Carrera)</dt>
+        <dd class="col-sm-8">@Model.Carrera</dd>
+
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Semestre)</dt>
+        <dd class="col-sm-8">@Model.Semestre</dd>
+
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Promedio)</dt>
+        <dd class="col-sm-8">@Model.Promedio / 10</dd>
+
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Telefono)</dt>
+        <dd class="col-sm-8">@Model.Telefono</dd>
+
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Correo)</dt>
+        <dd class="col-sm-8">@Model.Correo</dd>
+
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.FechaIngreso)</dt>
+        <dd class="col-sm-8">@Model.FechaIngreso.ToString("dd/MM/yyyy")</dd>
+    </dl>
+</div>
+<div class="modal-footer">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+</div>

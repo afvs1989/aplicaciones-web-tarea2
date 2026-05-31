@@ -51,27 +51,35 @@ La aplicación incluye además el módulo de **ASP.NET Core Identity** para aute
 
 ## Modelo de datos
 
-### Cliente (`ClienteModel`)
+### Cliente (`ClienteModel`) — 10 campos
 
 | Campo | Tipo | Validación |
 |-------|------|------------|
 | `Id` | `int` | Clave primaria (autoincremental) |
 | `Nombre` | `string` | Requerido, 2–50 caracteres |
 | `Apellido` | `string` | Requerido, 2–50 caracteres |
+| `TipoDocumento` | `string` | Requerido, CC / CE / TI / PA / NIT |
+| `NumeroDocumento` | `string` | Requerido, 5–15 dígitos |
 | `Direccion` | `string` | Requerido, 5–200 caracteres |
-| `Telefono` | `string` | Requerido, exactamente 10 dígitos numéricos |
+| `Ciudad` | `string` | Requerido, 2–80 caracteres |
+| `Telefono` | `string` | Requerido, exactamente 10 dígitos |
 | `Correo` | `string` | Requerido, formato de correo válido |
+| `FechaRegistro` | `DateTime` | Requerido, formato fecha |
 
-### Alumno (`AlumnoModel`)
+### Alumno (`AlumnoModel`) — 10 campos
 
 | Campo | Tipo | Validación |
 |-------|------|------------|
 | `Id` | `int` | Clave primaria (autoincremental) |
 | `Nombre` | `string` | Requerido, 2–50 caracteres |
 | `Apellido` | `string` | Requerido, 2–50 caracteres |
-| `Codigo` | `string` | Requerido, 3–20 caracteres, solo letras y números |
+| `Codigo` | `string` | Requerido, 3–20 caracteres, alfanumérico |
 | `Carrera` | `string` | Requerido, 3–100 caracteres |
+| `Semestre` | `int` | Requerido, entre 1 y 20 |
+| `Promedio` | `decimal` | Requerido, entre 0 y 10 (escala sobre 10) |
+| `Telefono` | `string` | Requerido, exactamente 10 dígitos |
 | `Correo` | `string` | Requerido, formato de correo válido |
+| `FechaIngreso` | `DateTime` | Requerido, formato fecha |
 
 Las tablas `Clientes` y `Alumnos` se crean mediante migraciones de Entity Framework en la base de datos `Tarea2_Clientes`.
 
@@ -98,6 +106,13 @@ Las tablas `Clientes` y `Alumnos` se crean mediante migraciones de Entity Framew
 | Crear | `GET/POST /Alumno/Create` | Formulario para nuevo alumno |
 | Editar | `GET/POST /Alumno/Edit/{id}` | Modifica un alumno existente |
 | Eliminar | `GET/POST /Alumno/Delete/{id}` | Confirma y elimina un alumno |
+| Ver modal | `GET /Alumno/VerModal/{id}` | Muestra todos los campos (incluido Id) en ventana modal |
+
+### Gestión de clientes — vista modal
+
+| Acción | Ruta | Descripción |
+|--------|------|-------------|
+| Ver modal | `GET /Cliente/VerModal/{id}` | Muestra todos los campos (incluido Id) en ventana modal |
 
 Las operaciones POST usan **`[ValidateAntiForgeryToken]`** para protección CSRF y validan el modelo con **Data Annotations** antes de guardar. Los formularios Create y Edit incluyen **validación del lado cliente** (jQuery Validation Unobtrusive) con mensajes en español debajo de cada campo.
 

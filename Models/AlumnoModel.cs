@@ -28,8 +28,28 @@ namespace tarea2_clientes.Models
         public string Carrera { get; set; }
 
         [Required(ErrorMessage = "El campo es requerido")]
+        [Range(1, 20, ErrorMessage = "El semestre debe estar entre 1 y 20")]
+        [Display(Name = "Semestre")]
+        public int Semestre { get; set; }
+
+        [Required(ErrorMessage = "El campo es requerido")]
+        [Range(0, 10, ErrorMessage = "El promedio debe estar entre 0 y 10")]
+        [Display(Name = "Promedio")]
+        public decimal Promedio { get; set; }
+
+        [Required(ErrorMessage = "El campo es requerido")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Ingrese los 10 dígitos de su número celular")]
+        [Display(Name = "Teléfono")]
+        public string Telefono { get; set; }
+
+        [Required(ErrorMessage = "El campo es requerido")]
         [EmailAddress(ErrorMessage = "Ingrese un correo electrónico válido")]
         [Display(Name = "Correo")]
         public string Correo { get; set; }
+
+        [Required(ErrorMessage = "El campo es requerido")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Fecha de ingreso")]
+        public DateTime FechaIngreso { get; set; }
     }
 }

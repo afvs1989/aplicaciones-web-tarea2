@@ -37,10 +37,28 @@ public class ClienteController : Controller
         return View(clientemodel);
     }
 
+    // GET: CLIENTEMODELS/VerModal/5
+    public async Task<IActionResult> VerModal(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var clientemodel = await _context.Clientes
+            .FirstOrDefaultAsync(m => m.Id == id);
+        if (clientemodel == null)
+        {
+            return NotFound();
+        }
+
+        return PartialView("_VerModal", clientemodel);
+    }
+
     // GET: CLIENTEMODELS/Create
     public IActionResult Create()
     {
-        return View();
+        return View(new ClienteModel { FechaRegistro = DateTime.Today });
     }
 
     // POST: CLIENTEMODELS/Create
@@ -48,7 +66,7 @@ public class ClienteController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Direccion,Telefono,Correo")] ClienteModel clientemodel)
+    public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,TipoDocumento,NumeroDocumento,Direccion,Ciudad,Telefono,Correo,FechaRegistro")] ClienteModel clientemodel)
     {
         if (ModelState.IsValid)
         {
@@ -80,7 +98,7 @@ public class ClienteController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("Id,Nombre,Apellido,Direccion,Telefono,Correo")] ClienteModel clientemodel)
+    public async Task<IActionResult> Edit(int? id, [Bind("Id,Nombre,Apellido,TipoDocumento,NumeroDocumento,Direccion,Ciudad,Telefono,Correo,FechaRegistro")] ClienteModel clientemodel)
     {
         if (id != clientemodel.Id)
         {
