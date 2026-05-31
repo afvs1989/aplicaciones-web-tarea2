@@ -1,4 +1,4 @@
-@model tarea2_clientes.Models.ClienteModel
+@model tarea2_clientes.Models.AlumnoModel
 
 @{
     ViewData["Title"] = "Create";
@@ -6,7 +6,7 @@
 
 <h1>Create</h1>
 
-<h4>ClienteModel</h4>
+<h4>AlumnoModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -26,15 +26,15 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
-                <span asp-validation-for="Direccion" class="text-danger"></span>
+                <label asp-for="Codigo" class="control-label"></label>
+                <input asp-for="Codigo" class="form-control" maxlength="20" placeholder="202012345" />
+                <span asp-validation-for="Codigo" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" maxlength="10" inputmode="numeric" placeholder="3001234567" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
+                <label asp-for="Carrera" class="control-label"></label>
+                <input asp-for="Carrera" class="form-control" />
+                <span asp-validation-for="Carrera" class="text-danger"></span>
             </div>
 
             <div class="form-group">

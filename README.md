@@ -2,13 +2,13 @@
 
 **Autor:** Andrés Valenzuela  
 **Curso:** Programación Web — Universidad de los Andes  
-**Proyecto:** `CRUD clientes`
+**Proyecto:** `tarea2_clientes`
 
 ---
 
 ## Descripción
 
-Sistema web para la **gestión de clientes** (CRUD completo). Permite registrar, consultar, editar y eliminar clientes almacenados en una base de datos **Microsoft SQL Server**, mediante una aplicación **ASP.NET Core MVC** con **Entity Framework Core**.
+Sistema web para la **gestión de clientes y alumnos** (CRUD completo). Permite registrar, consultar, editar y eliminar registros almacenados en una base de datos **Microsoft SQL Server**, mediante una aplicación **ASP.NET Core MVC** con **Entity Framework Core**.
 
 La aplicación incluye además el módulo de **ASP.NET Core Identity** para autenticación de usuarios (registro, inicio de sesión y gestión de cuentas).
 
@@ -35,15 +35,15 @@ La aplicación incluye además el módulo de **ASP.NET Core Identity** para aute
 │  (Razor UI) │               │  MVC + Identity  │                 │  (Docker)   │
 └─────────────┘               └──────────────────┘                 └─────────────┘
                                       │
-                              ClienteController
+                              ClienteController / AlumnoController
                               ApplicationDbContext
-                              ClienteModel
+                              ClienteModel / AlumnoModel
 ```
 
 ### Flujo de una petición
 
-1. El usuario accede a una URL (por ejemplo `/Cliente/Index`).
-2. **ASP.NET Core** enruta la petición al controlador correspondiente (`ClienteController`).
+1. El usuario accede a una URL (por ejemplo `/Cliente/Index` o `/Alumno/Index`).
+2. **ASP.NET Core** enruta la petición al controlador correspondiente.
 3. El controlador usa **`ApplicationDbContext`** para leer o modificar datos en SQL Server.
 4. El resultado se envía a una **vista Razor** (`.cshtml`) que genera el HTML de respuesta.
 
@@ -56,13 +56,24 @@ La aplicación incluye además el módulo de **ASP.NET Core Identity** para aute
 | Campo | Tipo | Validación |
 |-------|------|------------|
 | `Id` | `int` | Clave primaria (autoincremental) |
-| `Nombre` | `string` | Requerido |
-| `Apellido` | `string` | Requerido |
-| `Direccion` | `string` | Requerido |
-| `Telefono` | `string` | Máximo 10 caracteres |
-| `Correo` | `string` | — |
+| `Nombre` | `string` | Requerido, 2–50 caracteres |
+| `Apellido` | `string` | Requerido, 2–50 caracteres |
+| `Direccion` | `string` | Requerido, 5–200 caracteres |
+| `Telefono` | `string` | Requerido, exactamente 10 dígitos numéricos |
+| `Correo` | `string` | Requerido, formato de correo válido |
 
-La tabla `Clientes` se crea mediante migraciones de Entity Framework en la base de datos `Tarea2_Clientes`.
+### Alumno (`AlumnoModel`)
+
+| Campo | Tipo | Validación |
+|-------|------|------------|
+| `Id` | `int` | Clave primaria (autoincremental) |
+| `Nombre` | `string` | Requerido, 2–50 caracteres |
+| `Apellido` | `string` | Requerido, 2–50 caracteres |
+| `Codigo` | `string` | Requerido, 3–20 caracteres, solo letras y números |
+| `Carrera` | `string` | Requerido, 3–100 caracteres |
+| `Correo` | `string` | Requerido, formato de correo válido |
+
+Las tablas `Clientes` y `Alumnos` se crean mediante migraciones de Entity Framework en la base de datos `Tarea2_Clientes`.
 
 ---
 
@@ -78,7 +89,17 @@ La tabla `Clientes` se crea mediante migraciones de Entity Framework en la base 
 | Editar | `GET/POST /Cliente/Edit/{id}` | Modifica un cliente existente |
 | Eliminar | `GET/POST /Cliente/Delete/{id}` | Confirma y elimina un cliente |
 
-Las operaciones POST usan **`[ValidateAntiForgeryToken]`** para protección CSRF y validan el modelo con **Data Annotations** antes de guardar.
+### Gestión de alumnos (CRUD)
+
+| Acción | Ruta | Descripción |
+|--------|------|-------------|
+| Listar | `GET /Alumno/Index` | Muestra todos los alumnos |
+| Detalle | `GET /Alumno/Details/{id}` | Consulta un alumno por ID |
+| Crear | `GET/POST /Alumno/Create` | Formulario para nuevo alumno |
+| Editar | `GET/POST /Alumno/Edit/{id}` | Modifica un alumno existente |
+| Eliminar | `GET/POST /Alumno/Delete/{id}` | Confirma y elimina un alumno |
+
+Las operaciones POST usan **`[ValidateAntiForgeryToken]`** para protección CSRF y validan el modelo con **Data Annotations** antes de guardar. Los formularios Create y Edit incluyen **validación del lado cliente** (jQuery Validation Unobtrusive) con mensajes en español debajo de cada campo.
 
 ### Páginas generales
 
@@ -94,15 +115,18 @@ Las operaciones POST usan **`[ValidateAntiForgeryToken]`** para protección CSRF
 tarea2/
 ├── Controllers/
 │   ├── ClienteController.cs    # Lógica CRUD de clientes
+│   ├── AlumnoController.cs     # Lógica CRUD de alumnos
 │   └── HomeController.cs       # Páginas de inicio y error
 ├── Data/
 │   ├── ApplicationDbContext.cs # Contexto de EF Core
 │   └── Migrations/             # Migraciones de la base de datos
 ├── Models/
 │   ├── ClienteModel.cs         # Entidad Cliente
+│   ├── AlumnoModel.cs          # Entidad Alumno
 │   └── ErrorViewModel.cs
 ├── Views/
-│   ├── Cliente/                # Vistas del CRUD
+│   ├── Cliente/                # Vistas CRUD de clientes
+│   ├── Alumno/                 # Vistas CRUD de alumnos
 │   ├── Home/
 │   └── Shared/
 ├── Areas/Identity/               # Páginas de autenticación
@@ -161,7 +185,7 @@ cd tarea2
 dotnet ef database update
 ```
 
-Esto crea la base `Tarea2_Clientes` y las tablas (`Clientes`, tablas de Identity, etc.).
+Esto crea la base `Tarea2_Clientes` y las tablas (`Clientes`, `Alumnos`, tablas de Identity, etc.).
 
 ### 4. Ejecutar la aplicación
 
@@ -175,6 +199,8 @@ Abre el navegador en:
 
 - **HTTP:** http://localhost:5204  
 - **HTTPS:** https://localhost:7045  
+
+Desde el menú de navegación puedes acceder a **Clientes** (`/Cliente/Index`) y **Alumnos** (`/Alumno/Index`).
 
 ---
 

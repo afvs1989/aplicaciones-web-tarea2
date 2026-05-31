@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace tarea2_clientes.Models
 {
-    public class ClienteModel
+    public class AlumnoModel
     {
         public int Id { get; set; }
 
@@ -17,14 +17,15 @@ namespace tarea2_clientes.Models
         public string Apellido { get; set; }
 
         [Required(ErrorMessage = "El campo es requerido")]
-        [StringLength(200, MinimumLength = 5, ErrorMessage = "La dirección debe tener entre 5 y 200 caracteres")]
-        [Display(Name = "Dirección")]
-        public string Direccion { get; set; }
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "El código debe tener entre 3 y 20 caracteres")]
+        [RegularExpression(@"^[A-Za-z0-9]+$", ErrorMessage = "El código solo puede contener letras y números")]
+        [Display(Name = "Código")]
+        public string Codigo { get; set; }
 
         [Required(ErrorMessage = "El campo es requerido")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "Ingrese los 10 dígitos de su número celular")]
-        [Display(Name = "Teléfono")]
-        public string Telefono { get; set; }
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "La carrera debe tener entre 3 y 100 caracteres")]
+        [Display(Name = "Carrera")]
+        public string Carrera { get; set; }
 
         [Required(ErrorMessage = "El campo es requerido")]
         [EmailAddress(ErrorMessage = "Ingrese un correo electrónico válido")]

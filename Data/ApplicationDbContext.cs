@@ -7,5 +7,6 @@ namespace tarea2_clientes.Data
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options)
     {
         public DbSet<ClienteModel> Clientes { get; set; }
+        public DbSet<AlumnoModel> Alumnos { get; set; }
     }    
 }
